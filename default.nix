@@ -1,11 +1,12 @@
 with import <nixpkgs> {};
+with builtins;
 let
-  version = import ./version.nix;
+  version-regex = ".*NIXTO_VERSION=\"([0-9]\\.[0-9]\\.[0-9])\".*";
+  version = elemAt (match version-regex (readFile ./bin/nixto)) 0;
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   name = "nixto-" + version;
-  src  = ./nixto- + version + ".tar.gz";
-  buildInputs = [sudo];
+  src  = ./bin;
   installPhase = ''
     mkdir -p $out/bin/
     cp ./nixto $out/bin/

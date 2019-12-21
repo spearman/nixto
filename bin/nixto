@@ -1,7 +1,13 @@
 #!/bin/sh
 
+NIXTO_VERSION="0.0.2"
+
+# version
+if [ "$1" == "--version" ]; then
+  echo "nixto $NIXTO_VERSION"
+
 # nixto nixpkgs <subcmd>
-if [ "$1" == "nixpkgs" ]; then
+elif [ "$1" == "nixpkgs" ]; then
 
   if [ "$2" == "dir" ]; then
     nix-instantiate --find-file nixpkgs
@@ -43,6 +49,7 @@ elif [ "$1" == "system" ]; then
 # unrecognized
 else
   echo "Available subcommands:"
+  echo "  nixto --version"
   echo "  nixto nixpkgs dir"
   echo "  nixto search <query>"
   echo "  nixto system <subcommand>"
