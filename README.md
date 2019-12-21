@@ -1,10 +1,10 @@
 # `nixto`
 
-> NixTOol command-line utility
+> NixTOol: NixOS command-line utility
 
-This derivation installs an executable bash script called `nixto` into the path
-that accepts various subcommands as shortcuts for common operations such as
-searching for packages or querying system configuration.
+This derivation installs an utility shell script called `nixto` into the path
+that accepts various subcommands as shortcuts for common NixOS operations such
+as searching for packages or querying system configuration.
 
 
 ## Installation
