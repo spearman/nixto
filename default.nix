@@ -1,5 +1,7 @@
-with import <nixpkgs> {};
-with builtins;
+with {
+  inherit (import <nixpkgs> {}) stdenv;
+  inherit (builtins) elemAt match readFile;
+};
 let
   version-regex = ".*NIXTO_VERSION=\"([0-9]\\.[0-9]\\.[0-9])\".*";
   version = elemAt (match version-regex (readFile ./bin/nixto)) 0;
