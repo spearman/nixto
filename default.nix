@@ -1,16 +1,14 @@
 with {
-  inherit (import <nixpkgs> {}) stdenv;
+  inherit (import <nixpkgs> {}) lib makeWrapper runCommand sudo;
   inherit (builtins) elemAt match readFile;
 };
 let
   version-regex = ".*NIXTO_VERSION=\"([0-9]\\.[0-9]\\.[0-9])\".*";
-  version = elemAt (match version-regex (readFile ./bin/nixto)) 0;
-in
-stdenv.mkDerivation {
+  version = elemAt (match version-regex (readFile ./nixto.sh)) 0;
   name = "nixto-" + version;
-  src  = ./bin;
-  installPhase = ''
-    mkdir -p $out/bin/
-    cp ./nixto $out/bin/
-  '';
-}
+in
+runCommand name { buildInputs = [ makeWrapper ]; }
+''
+  makeWrapper ${./nixto.sh} $out/bin/nixto \
+    --prefix PATH : ${lib.makeBinPath [ sudo ]}
+''
