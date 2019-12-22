@@ -7,7 +7,7 @@ let
   version = elemAt (match version-regex (readFile ./nixto.sh)) 0;
   name = "nixto-" + version;
 in
-runCommand name { buildInputs = [ makeWrapper ]; }
+runCommand name { buildInputs = [ makeWrapper sudo ]; }
 ''
   makeWrapper ${./nixto.sh} $out/bin/nixto \
     --prefix PATH : ${lib.makeBinPath [ sudo ]}
