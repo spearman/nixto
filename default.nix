@@ -1,5 +1,5 @@
 with {
-  inherit (import <nixpkgs> {}) stdenv sudo;
+  inherit (import <nixpkgs> {}) coreutils stdenv sudo;
   inherit (builtins) elemAt match readFile;
 };
 let
@@ -9,7 +9,10 @@ in
 stdenv.mkDerivation {
   name = "nixto-" + version;
   src = ./.;
-  buildInputs = [ sudo ];
+  buildInputs = [
+    coreutils
+    sudo
+  ];
   installPhase = ''
     mkdir -p $out/bin
     cp ./nixto.sh $out/bin/nixto
