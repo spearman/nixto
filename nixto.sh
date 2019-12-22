@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NIXTO_VERSION="0.0.2"
+NIXTO_VERSION="0.0.3"
 
 # version
 if [ "$1" == "--version" ]; then
@@ -21,6 +21,21 @@ elif [ "$1" == "nixpkgs" ]; then
 # nixto search <query>
 elif [ "$1" == "search" ]; then
   nix-env -qaP --description $2
+
+# nixto store references <name>
+elif [ "$1" == "store" ]; then
+  if [ "$2" == "references" ]; then
+    matches=$(ls -1 /nix/store | grep "\-$3")
+    for match in $matches; do
+      path="/nix/store/$match"
+      echo "$path:"
+      nix-store -q --references $path
+    done
+  else
+    echo "Valid subcommands:"
+    echo "  nixto store references <name>"
+    exit 1
+  fi
 
 # nixto system <subcmd>
 elif [ "$1" == "system" ]; then
@@ -52,6 +67,7 @@ else
   echo "  nixto --version"
   echo "  nixto nixpkgs dir"
   echo "  nixto search <query>"
+  echo "  nixto store references <name>"
   echo "  nixto system <subcommand>"
   exit 1
 fi

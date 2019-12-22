@@ -45,6 +45,11 @@ Show the nixpkgs directory (`$ nix-instantiate --find-file nixpkgs`):
 
     $ nixto nixpkgs dir
 
+Show references for the store object with the given name (looks for store paths
+matching `/nix/store/<hash>-<name>`)::
+
+    $ nixto store references <name>
+
 Full system GC-- deletes all old generations of all user profiles, the root
 profile, and the system profile (`$ sudo nix-collect-garbage -d`):
 
