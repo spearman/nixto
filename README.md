@@ -45,8 +45,8 @@ Show the nixpkgs directory (`$ nix-instantiate --find-file nixpkgs`):
 
     $ nixto nixpkgs dir
 
-Show references for the store object with the given name (looks for store paths
-matching `/nix/store/<hash>-<name>`)::
+Show references for all store objects with the given name
+(`$ nix-store -q --references /nix/store/*-<name>`):
 
     $ nixto store references <name>
 

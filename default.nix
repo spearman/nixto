@@ -1,5 +1,5 @@
 with {
-  inherit (import <nixpkgs> {}) coreutils stdenv sudo;
+  inherit (import <nixpkgs> {}) coreutils lib stdenv sudo;
   inherit (builtins) elemAt match readFile;
 };
 let
@@ -8,7 +8,7 @@ let
 in
 stdenv.mkDerivation {
   name = "nixto-" + version;
-  src = ./.;
+  src = lib.sourceByRegex ./. ["nixto.sh"];
   buildInputs = [
     coreutils
     sudo
