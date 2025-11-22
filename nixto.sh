@@ -1,15 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-NIXTO_VERSION="0.0.3"
+NIXTO_VERSION="0.0.4"
 
 # version
-if [ "$1" == "--version" ]; then
+if [ "$1" = "--version" ]; then
   echo "nixto $NIXTO_VERSION"
 
 # nixto nixpkgs <subcmd>
-elif [ "$1" == "nixpkgs" ]; then
+elif [ "$1" = "nixpkgs" ]; then
 
-  if [ "$2" == "dir" ]; then
+  if [ "$2" = "dir" ]; then
     nix-instantiate --find-file nixpkgs
 
   else
@@ -19,17 +19,16 @@ elif [ "$1" == "nixpkgs" ]; then
   fi
 
 # nixto search <query>
-elif [ "$1" == "search" ]; then
-  nix-env -qaP --description $2
+elif [ "$1" = "search" ]; then
+  nix-env -qaP --description "$2"
 
 # nixto store references <name>
-elif [ "$1" == "store" ]; then
-  if [ "$2" == "references" ]; then
-    matches=$(ls -1 /nix/store | grep "\-$3")
-    for match in $matches; do
-      path="/nix/store/$match"
-      echo "$path:"
-      nix-store -q --references $path
+elif [ "$1" = "store" ]; then
+  if [ "$2" = "references" ]; then
+    matches=$(echo /nix/store/*-"$3"*)
+    for path in $matches; do
+      echo -e "\033[1;36m${path}:\033[0m"
+      nix-store -q --references "$path"
     done
   else
     echo "Valid subcommands:"
@@ -38,18 +37,18 @@ elif [ "$1" == "store" ]; then
   fi
 
 # nixto system <subcmd>
-elif [ "$1" == "system" ]; then
+elif [ "$1" = "system" ]; then
 
-  if [ "$2" == "gc" ]; then
+  if [ "$2" = "gc" ]; then
     sudo nix-collect-garbage -d
 
-  elif [ "$2" == "generations" ]; then
+  elif [ "$2" = "generations" ]; then
     sudo nix-env -p /nix/var/nix/profiles/system --list-generations
 
-  elif [ "$2" == "packages" ]; then
+  elif [ "$2" = "packages" ]; then
     nix-store -q --references /var/run/current-system/sw | cut -d'-' -f2-
 
-  elif [ "$2" == "rebuild" ]; then
+  elif [ "$2" = "rebuild" ]; then
     sudo nixos-rebuild switch
 
   else
