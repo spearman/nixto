@@ -51,12 +51,16 @@ elif [ "$1" = "system" ]; then
   elif [ "$2" = "rebuild" ]; then
     sudo nixos-rebuild switch
 
+  elif [ "$2" = "upgrade" ]; then
+    sudo nixos-rebuild switch --upgrade
+
   else
     echo "Valid subcommands:"
     echo "  nixto system gc"
     echo "  nixto system generations"
     echo "  nixto system packages"
     echo "  nixto system rebuild"
+    echo "  nixto system upgrade"
     exit 1
   fi
 
